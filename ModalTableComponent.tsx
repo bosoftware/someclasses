@@ -89,3 +89,93 @@ const YourParentComponent: React.FC = () => {
 };
 
 export default YourParentComponent;
+
+
+
+
+
+// ModalComponent.tsx
+import React, { useState } from 'react';
+import { Modal, Row, Col, Pagination } from 'antd';
+import PhotoGallery from './PhotoGallery'; // Assuming you've implemented the PhotoGallery component from the previous example
+import 'antd/dist/antd.css';
+
+interface ModalComponentProps {
+  visible: boolean;
+  onClose: () => void;
+  photos: string[]; // Array of photo URLs
+}
+
+const ModalComponent: React.FC<ModalComponentProps> = ({ visible, onClose, photos }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <Modal
+      visible={visible}
+      title="Photo Gallery Modal"
+      onCancel={onClose}
+      footer={null}
+      width="80%"
+    >
+      <Row gutter={[16, 16]}>
+        <Col span={4} style={{ borderRight: '1px solid #ccc', paddingRight: '16px' }}>
+          {/* Left Part (15% of the width) */}
+          {/* You can add content to the left part if needed */}
+          <div>Left Part</div>
+        </Col>
+        <Col span={20}>
+          {/* Right Part (85% of the width) */}
+          <PhotoGallery photos={photos} currentPage={currentPage} itemsPerPage={10} />
+          <Pagination
+            current={currentPage}
+            total={photos.length}
+            pageSize={10}
+            showSizeChanger={false}
+            onChange={onPageChange}
+            style={{ marginTop: '16px', textAlign: 'center' }}
+          />
+        </Col>
+      </Row>
+    </Modal>
+  );
+};
+
+export default ModalComponent;
+
+
+// YourParentComponent.tsx
+import React, { useState } from 'react';
+import ModalComponent from './ModalComponent';
+
+const YourParentComponent: React.FC = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // Replace with your actual photo URLs
+  const samplePhotos = [
+    'https://example.com/photo1.jpg',
+    'https://example.com/photo2.jpg',
+    // Add more photo URLs as needed
+  ];
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  return (
+    <div>
+      <button onClick={handleOpenModal}>Open Modal</button>
+      <ModalComponent visible={modalVisible} onClose={handleCloseModal} photos={samplePhotos} />
+    </div>
+  );
+};
+
+export default YourParentComponent;
+
