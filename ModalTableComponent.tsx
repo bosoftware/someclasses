@@ -52,3 +52,40 @@ const ModalTableComponent: React.FC<ModalTableComponentProps> = ({ visible, onCl
 };
 
 export default ModalTableComponent;
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import ModalTableComponent from './ModalTableComponent';
+
+const YourParentComponent: React.FC = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const mockData = [
+    { key: '1', name: 'John Doe', age: 25 },
+    { key: '2', name: 'Jane Doe', age: 30 },
+    // Add more data as needed
+  ];
+
+  return (
+    <div>
+      <Button onClick={handleOpenModal}>Open Modal</Button>
+      <ModalTableComponent visible={modalVisible} onClose={handleCloseModal} data={mockData} />
+    </div>
+  );
+};
+
+export default YourParentComponent;
